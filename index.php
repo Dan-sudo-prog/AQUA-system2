@@ -210,7 +210,7 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
          <img src="images/foods.png" class="image">
          <h3 class="title"><a href="search_results.php?query=Fresh Foods">Fresh Foods</a></h3>
       </div>
-      <!-- Add more category boxes here -->
+      
    </div>
 </section>
 <!-- Category section ends here -->
@@ -257,6 +257,8 @@ if (file_exists($imagePath)) {
    </div>
 </section>
 <!-- View all posts section ends -->
+
+<!-- Slide show section -->
 <section class="all-posts" style="padding: 10rem; background-color: cyan;">
       <div class="heading">
          <h1 style="margin-left: 5rem;">How it Works</h1>
@@ -326,6 +328,9 @@ if (file_exists($imagePath)) {
     
     </script>
    </section>
+   <!-- End of slide show section -->
+
+   <!-- Section for testimonials -->
    <section class="all-posts" style="padding: 10rem; background-color: lightgrey;">
          <div class="heading"><h1 style="margin-left: 5rem;">What our Users Say</h1></div>
          <div class="home_container"></div>
@@ -358,13 +363,16 @@ if (file_exists($imagePath)) {
             </div>
       </div>
    </section>
+   <!-- End of section -->
 
+<!--Section for Call for cooperation -->
 <section class="all-posts" style="font-size: 16px; text-align: center; height: 30vh; background-color: lightskyblue; padding:  10rem;">
    <div class="home-container">
       <h2>Join us now to discover more and rate agricultural products!</h2>      
    </div>
 </section>
 
+<!-- Footer section -->
 <footer style="font-size: 16px; text-align: center; background-color: cyan;">
       <div class="home_container">
             <p style="">Contact Us: <a href="mailto: aquasystems@gmail.com">aquasystems@gmail.com</a></p><br>

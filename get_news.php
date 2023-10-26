@@ -1,8 +1,8 @@
 <?php
-
+// This file gets news infromation from the database
 try {
 
-    // Define your SQL query to retrieve news articles
+    // Define SQL query to retrieve news articles
     $sql = "SELECT * FROM news ORDER BY publication_date DESC";
 
     // Prepare the SQL statement
@@ -14,9 +14,8 @@ try {
     // Fetch all news articles as an associative array
     $newsArticles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // You can now use $newsArticles to display news articles on your page
+    // You can now use $newsArticles to display news articles on the page
 
-    // Example usage:
     foreach ($newsArticles as $article) {
         echo "<h2>{$article['title']}</h2>";
         echo "<p>{$article['content']}</p>";
@@ -27,6 +26,4 @@ try {
     echo "Error: " . $e->getMessage();
 }
 
-// Don't forget to close the PDO connection when done (usually not necessary due to automatic closing)
-// $conn = null;
 ?>
