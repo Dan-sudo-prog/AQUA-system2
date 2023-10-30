@@ -2,7 +2,7 @@
 
 include 'components/connect.php';
 
-if (isset($_POST['submit'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    $id = create_unique_id();
    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
    $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
@@ -30,6 +30,27 @@ if (isset($_POST['submit'])) {
       }
    } else {
       $rename = '';
+   }
+
+   //validate username
+   if (strlen($name) < 4 || strlen($name) > 20 || !preg_match("/^[a-zA-Z0-9_ -]+$/", $name)) {
+      echo "Invalid name. Name must be between 3 and 20 characters and contain only letters, numbers, underscores,spaces and hyphens.";
+   }
+   
+   //validate phone number
+   if (empty($phone) || strlen($phone) < 10 || substr($phone, 0, 1) !== '0') {
+    $warning_msg[] = 'Invalid phone number! It must start with "0".';
+   }
+
+
+   //validate password
+   if (empty($pass) || strlen($pass) < 5) {
+      $warning_msg[] = 'Password should be at least 5 characters long!';
+   }
+   
+   // Validate location 
+   if (!preg_match("/^[a-zA-Z ,]+$/", $location)) {
+      $warning_msg[] = 'Invalid location format!';
    }
 
    if ($pass === $c_pass) {
@@ -64,11 +85,12 @@ if (isset($_POST['submit'])) {
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>register</title>
+   <!-- SweetAlert2 CDN links -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
    <!-- Custom CSS file link -->
    <link rel="stylesheet" href="style.css">
    <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
    
@@ -79,25 +101,43 @@ if (isset($_POST['submit'])) {
 <section class="account-form">
    <form action="" method="post" enctype="multipart/form-data">
       <h3>Create an account!</h3>
-      <p class="placeholder">your name <span>*</span></p>
+      <!-- Display error messages if there are any -->
+      <?php if (!empty($warning_msg)): ?>
+      <div class="alert alert-danger">
+          <ul>
+              <?php foreach ($warning_msg as $warning): ?>
+              <li><?php echo $warning; ?></li>
+              <?php endforeach; ?>
+          </ul>
+      </div>
+      <?php endif; ?>
+
+      <!-- Display success message if registration is successful -->
+      <?php if (!empty($success_msg)): ?>
+      <div class="alert alert-success">
+          <?php echo $success_msg; ?>
+      </div>
+      <?php endif; ?>
+      <p class="placeholder">Enter your name/Organisation <span>*</span></p>
       <input type="text" name="name" required maxlength="50" placeholder="enter your name" class="box">
-      <p class="placeholder">your email <span></span></p>
+      <p class="placeholder">Enter email address<span></span></p>
       <input type="email" name="email" maxlength="50" placeholder="enter your email" class="box">
-      <p class="placeholder">your phone <span>*</span></p>
+      <p class="placeholder">Enter phone number<span>*</span></p>
       <input type="number" name="phone" required maxlength="50" placeholder="enter your phone number" class="box">
-      <p class="placeholder">your password <span>*</span></p>
+      <p class="placeholder">Enter a password<span>*</span></p>
       <input type="password" name="pass" required maxlength="50" placeholder="enter your password" class="box">
-      <p class="placeholder">confirm password <span>*</span></p>
+      <p class="placeholder">Confirm password <span>*</span></p>
       <input type="password" name="c_pass" required maxlength="50" placeholder="confirm your password" class="box">
-      <p class="placeholder">profile pic</p>
+      <p class="placeholder">Profile pic</p>
       <input type="file" name="profile_image" class="box" accept="image/*">
-      <p class="placeholder">your location <span>*</span></p>
+      <p class="placeholder">Enter your location<span>*</span></p>
       <input type="location" name="location" required maxlength="50" placeholder="enter your location" class="box">
-      <p class="link">already have an account? <a href="login.php">login now</a></p>
+      <input type="checkbox" checked name="accept_terms" id="accept_terms"> I have read and accept the terms and conditions
+      <p class="link">Already have an account? <a href="login.php">Login now</a></p>
       <input type="submit" value="register now" name="submit" class="btn">
+      
    </form>
 </section>
-
 <!-- SweetAlert CDN link -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
@@ -105,6 +145,7 @@ if (isset($_POST['submit'])) {
 <script src="script.js"></script>
 
 <?php include 'components/alerts.php'; ?>
+
 
 </body>
 </html>
