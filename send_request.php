@@ -6,10 +6,10 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
     if (!empty($user_id)) {
         // Insert a request into the 'user_requests' table
         $insert_request = $conn->prepare("INSERT INTO user_requests (user_id) VALUES (?)");
-        $stmt = $insert_request; // Corrected this line
+        $stmt = $insert_request; 
         $stmt->bindParam(1, $user_id);
         if ($stmt->execute()) {
-            echo "<p>Sent successfully";
+            echo "<p>Sent successfully. You will be given farmers' privilages in 24 hours";
         } else {
             echo 'An error occurred.';
         }

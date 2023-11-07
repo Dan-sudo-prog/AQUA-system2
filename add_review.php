@@ -70,22 +70,31 @@ if (isset($_POST['submit'])) {
 
 <section class="account-form">
    <form action="" method="post" id="review-form">
-      <h3>post your review</h3>
+      <h3>Please answer all questions to post your review</h3>
+      <p>Please adhere to the <a href="review_guidelines.html">review guidelines</a></p>.
       <div id="question-1" class="question">
-         <p class="placeholder">Can you briefly tell us how was the product?<span>*</span></p>
-         <input type="text" name="title" required maxlength="50" placeholder="Enter " class="box">
+         <p class="placeholder">In less than 5 words, how is/was the product?<span>*</span></p>
+         <input type="text" name="title" required maxlength="50" placeholder="Enter response" class="box" required>
+         <button type="button" id="prev-1" class="btn" style="display: none;">Previous</button>
          <button type="button" id="next-1" class="btn">Next</button>
       </div>
 
       <div id="question-2" class="question" style="display: none;">
-         <p class="placeholder">Describe your experience while using it...</p>
-         <textarea name="description" class="box" placeholder="Enter description of your experience..." maxlength="1000" cols="30" rows="10"></textarea>
-         <button type="button" id="prev+2" class="btn">Previous</button>
+         <p class="placeholder">Describe your experience while you were using it.</p>
+         <textarea name="description" class="box" placeholder="Enter description of your experience..." maxlength="1000" cols="30" rows="10" required></textarea>
+         <button type="button" id="prev-2" class="btn">Previous</button>
          <button type="button" id="next-2" class="btn">Next</button>
       </div>
 
       <div id="question-3" class="question" style="display: none;">
-         <p class="placeholder">Take some time and rate the product! <span>*</span></p>
+         <p class="placeholder">Add an image of your interaction with the product.</p>
+         <input type="file" accept="image/png, image/jpeg, image/jpg" name="product_image" class="box" required>
+         <button type="button" id="prev-3" class="btn">Previous</button>
+         <button type="button" id="next-3" class="btn">Next</button>
+      </div>
+
+      <div id="question-4" class="question" style="display: none;">
+         <p class="placeholder">Please rate the product on a scale of 5 <span>*</span></p>
          <select name="rating" class="box" required>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -93,14 +102,14 @@ if (isset($_POST['submit'])) {
             <option value="4">4</option>
             <option value="5">5</option>
          </select>
-         <button type="button" id="prev-3" class="btn">Previous</button>
-         <button type="button" id="next-3" class="btn">Next</button>
+         <button type="button" id="prev-4" class="btn">Previous</button>
+         <button type="button" id="next-4" class="btn">Next</button>
       </div>
 
-      <div id="question-4" class="question" style="display: none;">
+      <div id="question-5" class="question" style="display: none;">
          <p class="placeholder">How can the product be made better?</p>
-         <textarea name="recommendations" class="box" placeholder="enter product recommendation" maxlength="1000" cols="30" rows="10"></textarea>
-         <button type="button" id="prev-4" class="btn">Previous</button>
+         <textarea name="recommendations" class="box" placeholder="Enter product recommendation" maxlength="1000" cols="30" rows="10"></textarea>
+         <button type="button" id="prev-5" class="btn">Previous</button>
          <input type="submit" value="submit review" name="submit" class="btn">
          <a href="view_post.php?get_id=<?= $get_id; ?>" class="option-btn">go back</a>
       </div>
@@ -123,10 +132,8 @@ if (isset($_POST['submit'])) {
 
    for (let i = 0; i < nextButtons.length; i++) {
       const nextButton = nextButtons[i];
-      const prevButton = prevButtons[i];
       const question = questions[i];
       const nextQuestion = questions[i + 1];
-      const prevQuestion = questions[i - 1];
 
       nextButton.addEventListener('click', function () {
          question.style.display = 'none';
@@ -134,13 +141,18 @@ if (isset($_POST['submit'])) {
             nextQuestion.style.display = 'block';
          }
       });
+   }
+   for (let i = 0; i < prevButtons.length; i++) {
+      const prevButton = prevButtons[i];
+      const question = questions[i];
+      const prevQuestion = questions[i - 1];
 
-      if (prevButton) {
-         prevButton.addEventListener('click', function () {
-            question.style.display = 'none';
+      prevButton.addEventListener('click', function () {
+         question.style.display = 'none';
+         if (prevQuestion) {
             prevQuestion.style.display = 'block';
-         });
-      }
+         }
+      });
    }
 </script>
 

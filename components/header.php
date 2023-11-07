@@ -74,7 +74,7 @@ if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
                <?php
                if ($isApproved) {
                    echo '<a href="admin_update.php" class="btn">Manage Account</a>';
-               }
+               } else echo '<a href="send_request.php" class="btn">Get Farmer Privileges</a>';
                ?>
                <a href="update.php" class="btn">update profile</a>
                <a href="components/logout.php" class="delete-btn" onclick="return confirm('logout from this website?');">logout</a>
