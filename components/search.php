@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<style type="text/css">
-		
+    <style type="text/css">
+        
 /* CSS for Search Bar */
 form .search-bar-container {
     display: flex !important;
@@ -21,7 +21,7 @@ form .search-bar-container .search-input {
 }
 
 form .search-bar-container .search-button {
-    background-color: blue !important;
+    background-color: green; !important;
     color: #fff !important;
     border: none;
     border-radius: 10px !important;
@@ -49,7 +49,7 @@ form .search-bar-container .search-button {
     }
 }
 
-	</style>
+    </style>
 </head>
 <body>
 
