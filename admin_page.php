@@ -170,7 +170,8 @@ if (!empty($message)) {
             <option value="Poultry &amp; Dairy Products">Poultry &amp; Dairy Products</option>
             <option value="Fruits &amp; Beverages">Fruits &amp; Beverages</option>
             <option value="Meat &amp; Related Products">Meat &amp; Related Products</option>
-            <option value="Fresh Foods">Fresh Foods &amp; others</option>
+            <option value="Fresh Foods">Fresh Foods</option>
+            <option value="Fresh Foods">Animals and Poultry</option>
         </select>
 
         <input type="text" placeholder="Enter product name" name="product_name" class="box" required>
