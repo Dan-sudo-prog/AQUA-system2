@@ -115,7 +115,7 @@ if (file_exists($imagePath)) {
    </div>
 </section>
 <!-- View all posts section ends -->
-<a href="send_request.php" class="btn">Request to be Added as a Farmer</a>
+
 <!-- <section>
    <h2>Send Message</h2>
 <form method="post" action="send_message.php">
