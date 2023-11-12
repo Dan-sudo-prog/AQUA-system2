@@ -14,13 +14,15 @@ if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
             <li class="dropdownMenu">
                <span class="dropdown" style="color: var(--white);" onmouseover="this.style.color='green';" onmouseout="this.style.color='white';">Categories</span>
                <div class="dropdown-content">
-                  <a href="search_results.php?query=Grain &amp; Cereal foods">Grain &amp; Cereal foods</a>
-                  <a href="search_results.php?query=Vegetables &amp; Legumes">Vegetables &amp; Legumes</a>
-                  <a href="search_results.php?query=Poultry &amp; Dairy Products">Poultry &amp; Dairy Products</a>
-                  <a href="search_results.php?query=Fruits &amp; Beverages">Fruits &amp; Beverages</a>
-                  <a href="search_results.php?query=Meat &amp; Related Products">Meat &amp; Related Products</a>
+                  <a href="search_results.php?query=Legumes">Legumes</a>
+                  <a href="search_results.php?query=Grain Foods">Grain Foods</a>
+                  <a href="search_results.php?query=Vegetables">Vegetables</a>
+                  <a href="search_results.php?query=Dairy">Dairy Products</a>
+                  <a href="search_results.php?query=Fruits">Fruits</a>
+                  <a href="search_results.php?query=Meat">Meat</a>
                   <a href="search_results.php?query=Fresh Foods">Fresh Foods</a>
-                  <a href="search_results.php?query=Animals &amp; Poultry">Animals &amp; Poultry</a>
+                  <a href="search_results.php?query=Animals">Animals</a>
+                  <a href="search_results.php?query=Birds">Birds</a>
                </div>
             </li>
             <li><a href="news.php" style="color: var(--white);" onmouseover="this.style.color='green';" onmouseout="this.style.color='white';">News</a></li>

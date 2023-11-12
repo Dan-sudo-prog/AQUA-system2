@@ -1,7 +1,4 @@
-<!--
-*Welcome to Agricultural products quality Assessment System home page
-*Authors are Group 12 members
--->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,22 +10,19 @@
    <link rel="stylesheet" href="style.css">
    <link rel="stylesheet" href="styles.css">
    <style type="text/css">
-      .home_container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 10px;
+      .header {
+         max-width: 1800px;
+         margin: 0 auto;
+         padding: 10px;
       }
-      /* Style for welcome section of the home page*/
       .welcome {
          height: 85vh;
-         background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,1)), url('images/home.jpg');
+         background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,1)), url('images/image.jpeg');
          background-repeat: no-repeat;
          background-position: center;
          background-size: cover;
          padding: 20rem 5rem;
       }
-
-      /*style for the pop up window of the testimonial form*/
       .popup {
           width: 1000px;
           background: rgba(200, 200, 255, 0.95);
@@ -42,18 +36,18 @@
           visibility: hidden;
           transition: transform 0.4s, top 0.4s;
       }
-      .open-popup{
-          visibility: visible;
-          transform: translate(-50%,-50%) scale(1);
-      }
+.open-popup{
+    visibility: visible;
+    transform: translate(-50%,-50%) scale(1);
+}
 
-      .popup h2 {
-          font-size: 38px;
-          font-weight: 500;
-          margin: 30px 0 10px;
+.popup h2 {
+    font-size: 38px;
+    font-weight: 500;
+    margin: 30px 0 10px;
 }
 .popup button {
-          width: 30%;
+    width: 30%;
     margin-top: 20px;
     margin-right: 20px;
     padding: 10px;
@@ -79,9 +73,28 @@
 .popup label {
    display: none;
 }
-/*End of style*/
 
-/*footer styles*/
+.modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            justify-content: center;
+            align-items: center;
+        }
+        #loginForm {
+            background-color: #f1f2f3;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+            z-index: 1;
+            position: relative;
+        }
 footer .home_container nav ul {
   list-style: none;
   margin: 0;
@@ -98,8 +111,6 @@ footer .home_container nav li {
 footer .home_container nav a {
   text-decoration: none;
 }
-/*End of footer styles*/
-
 
 .all-posts .container p {
    font-size: 16px;
@@ -154,6 +165,31 @@ footer .home_container nav a {
     .next {
         right: 0;
     }
+
+.welcome .container h1{
+         font-size: 5rem;
+      }
+.welcome .container h3{
+         font-size: 3rem;
+      }
+    @media (max-width: 991px) {
+      .welcome {
+         height: 100vh;
+         background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,1)), url('images/image.jpeg');
+         background-repeat: no-repeat;
+         background-position: center;
+         background-size: cover;
+         padding: 10rem 1rem;
+      }
+      .welcome .container h1{
+         font-size: 3rem;
+         text-align: center;
+      }
+      .welcome .container h3{
+         font-size: 2rem;
+         text-align: center;
+      }
+    }
    </style>
 
    <?php
@@ -173,44 +209,52 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
 <?php include 'components/header.php'; ?>
 <!-- Header section ends -->
 <!-- Category section starts here -->
-
-<!-- Welcome section of the home page -->
-<section class="welcome">
+   <section class="welcome">
       <div class="container">
-         <h1 style="font-size: 5rem; color: darkolivegreen; font-weight: bolder;">Welcome to Agricultural Products <br/> Quality Assessment System</h1><br>
-         <h3 style="font-size: 3rem; color: darkolivegreen; font-weight: bolder;">Discover and Review the Quality of Agricultural Products</h3>
+         <h1 style="color: darkolivegreen; font-weight: bolder;">Welcome to Agricultural Products <br/> Quality Assessment System</h1><br>
+         <h3 style="color: darkolivegreen; font-weight: bolder;">Discover and Review the Quality of Agricultural Products</h3>
       </div>
    </section>
-
-<!-- Categories Section -->
 <section class="all-posts" style="padding: 10rem; background-color: linen;">
    <div class="heading"><h1 style="margin-left: 5rem;">Categories</h1></div>
    <div class="box-container">
       <div class="box">
          <img src="images/grain.jpeg" class="image">
-         <h3 class="title"><a href="search_results.php?query=Grain">Grain &amp; Cereal foods</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Legumes">Legumes</a></h3>
+      </div>
+      <div class="box">
+         <img src="images/grain.jpeg" class="image">
+         <h3 class="title"><a href="search_results.php?query=Grain Foods">Grain Foods</a></h3>
       </div>
       <div class="box">
          <img src="images/legumes.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Vegetables">Vegetables &amp; Legumes</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Vegetables">Vegetables</a></h3>
       </div>
       <div class="box">
-         <img src="images/diary.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Poultry">Poultry &amp; Diary Products</a></h3>
+         <img src="images/foods.png" class="image">
+         <h3 class="title"><a href="search_results.php?query=Dairy Products">Dairy Products</a></h3>
       </div>
       <div class="box">
          <img src="images/fruits.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Fruits">Fruits &amp; Beverages</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Fruits">Fruits</a></h3>
       </div>
       <div class="box">
          <img src="images/meat.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Meat">Meat &amp; Related Products</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Meat">Meat</a></h3>
       </div>
       <div class="box">
          <img src="images/foods.png" class="image">
          <h3 class="title"><a href="search_results.php?query=Fresh Foods">Fresh Foods</a></h3>
       </div>
-      
+      <div class="box">
+         <img src="images/foods.png" class="image">
+         <h3 class="title"><a href="search_results.php?query=Animals">Animals &amp; Birds</a></h3>
+      </div>
+      <div class="box">
+         <img src="images/foods.png" class="image">
+         <h3 class="title"><a href="search_results.php?query=Birds">Birds</a></h3>
+      </div>
+      <!-- Add more category boxes here -->
    </div>
 </section>
 <!-- Category section ends here -->
@@ -257,8 +301,6 @@ if (file_exists($imagePath)) {
    </div>
 </section>
 <!-- View all posts section ends -->
-
-<!-- Slide show section -->
 <section class="all-posts" style="padding: 10rem; background-color: cyan;">
       <div class="heading">
          <h1 style="margin-left: 5rem;">How it Works</h1>
@@ -328,9 +370,6 @@ if (file_exists($imagePath)) {
     
     </script>
    </section>
-   <!-- End of slide show section -->
-
-   <!-- Section for testimonials -->
    <section class="all-posts" style="padding: 10rem; background-color: lightgrey;">
          <div class="heading"><h1 style="margin-left: 5rem;">What our Users Say</h1></div>
          <div class="home_container"></div>
@@ -363,16 +402,13 @@ if (file_exists($imagePath)) {
             </div>
       </div>
    </section>
-   <!-- End of section -->
 
-<!--Section for Call for cooperation -->
 <section class="all-posts" style="font-size: 16px; text-align: center; height: 30vh; background-color: lightskyblue; padding:  10rem;">
    <div class="home-container">
       <h2>Join us now to discover more and rate agricultural products!</h2>      
    </div>
 </section>
 
-<!-- Footer section -->
 <footer style="font-size: 16px; text-align: center; background-color: cyan;">
       <div class="home_container">
             <p style="">Contact Us: <a href="mailto: aquasystems@gmail.com">aquasystems@gmail.com</a></p><br>

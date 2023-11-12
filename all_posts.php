@@ -30,27 +30,35 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
    <div class="box-container">
       <div class="box">
          <img src="images/grain.jpeg" class="image">
-         <h3 class="title"><a href="search_results.php?query=Grain">Grain &amp; Cereal foods</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Legumes &amp; Grain foods">Legumes &amp; Grain foods</a></h3>
       </div>
       <div class="box">
          <img src="images/legumes.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Vegetables">Vegetables &amp; Legumes</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Vegetables">Vegetables</a></h3>
       </div>
       <div class="box">
          <img src="images/diary.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Poultry">Poultry &amp; Diary Products</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Poultry">Poultry Products</a></h3>
+      </div>
+      <div class="box">
+         <img src="images/foods.png" class="image">
+         <h3 class="title"><a href="search_results.php?query=Dairy Products">Dairy Products</a></h3>
       </div>
       <div class="box">
          <img src="images/fruits.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Fruits">Fruits &amp; Beverages</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Fruits">Fruits</a></h3>
       </div>
       <div class="box">
          <img src="images/meat.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Meat">Meat &amp; Related Products</a></h3>
+         <h3 class="title"><a href="search_results.php?query=Meat">Meat</a></h3>
       </div>
       <div class="box">
          <img src="images/foods.png" class="image">
          <h3 class="title"><a href="search_results.php?query=Fresh Foods">Fresh Foods</a></h3>
+      </div>
+      <div class="box">
+         <img src="images/foods.png" class="image">
+         <h3 class="title"><a href="search_results.php?query=Animals">Animals</a></h3>
       </div>
       <!-- Add more category boxes here -->
    </div>
@@ -115,7 +123,6 @@ if (file_exists($imagePath)) {
    </div>
 </section>
 <!-- View all posts section ends -->
-
 <!-- <section>
    <h2>Send Message</h2>
 <form method="post" action="send_message.php">
