@@ -34,8 +34,7 @@ if (isset($_GET['get_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
     <!-- custom css file link  -->
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
    <style type="text/css">
        h1 {
         font-size: 25px;
@@ -58,13 +57,14 @@ if (isset($_GET['get_id'])) {
         align-items: center;
         text-align: left;
         border: none;
-        background-color: rgba(5, 200, 1, 0.2);
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        background-color: rgba(255, 255, 255, 0.5);
+        box-shadow:0 5px 10px rgba(0, 0, 0, 0.5);
        }
        a {
         margin-left: 30px;
        }
    </style>
+   
 </head>
 <body>
     <!-- header section starts  -->
@@ -72,13 +72,24 @@ if (isset($_GET['get_id'])) {
 <!-- header section ends -->
 <div class="details-container">
     <h1>Product Details</h1>
-    <h2><?php echo $product_data['title']; ?></h2>
-    <p>Type: <?php echo $product_data['type']; ?></p>
-    <p>Harvest Method: <?php echo $product_data['harvest_method']; ?></p>
-    <p>Harvest Date: <?php echo $product_data['harvest_date']; ?></p>
-    <p>Storage Conditions: <?php echo $product_data['storage_conditions']; ?></p>
-    <p>Treatments Used: <?php echo $product_data['treatments_used']; ?></p>
-    <p>Pesticides Used: <?php echo $product_data['pesticides_used']; ?></p>
+    <h2>Category: <?php echo $product_data['product_type']; ?></h2>
+    <p>Name: <?php echo $product_data['product_name']; ?></p>
+    <p>Description: <?php echo $product_data['description']; ?></p>
+    <p id="varietal_information">Varietal Information: <?php echo $product_data['varietal_information']; ?></p>
+    <p id="origin">Origin: <?php echo $product_data['origin']; ?></p>
+    <p id="health">Health: <?php echo $product_data['health']; ?></p>
+    <p id="harvest_method">Harvest Method: <?php echo $product_data['harvest_method']; ?></p>
+    <p id="production_method">Production Method: <?php echo $product_data['production_method']; ?></p>
+    <p id="breeding_method">Breeding Method: <?php echo $product_data['breeding_method']; ?></p>
+    <p id="harvest_date">Harvest Date: <?php echo $product_data['harvest_date']; ?></p>
+    <p id="production_date">Production Date: <?php echo $product_data['production_date']; ?></p>
+    <p id="storage_conditions">Storage Conditions: <?php echo $product_data['storage_conditions']; ?></p>
+    <p id="preservation_practices">Preservation Pracices: <?php echo $product_data['preservation_practices']; ?></p>
+    <p id="packaging">Packaging Information: <?php echo $product_data['packaging']; ?></p>
+    <p id="preharvest_treatments">Pre-Harvest Treatments Used: <?php echo $product_data['preharvest_treatments']; ?></p>
+    <p id="postharvest_treatments">Post-Harvest Treatments Used: <?php echo $product_data['postharvest_treatments']; ?></p>
+    <p id="vaccination_info">Vaccination Information: <?php echo $product_data['vaccination_info']; ?></p>
+    <p id="treatment_info">Treatment Information: <?php echo $product_data['treatment_info']; ?></p>
     <p>Price: Ugx <?php echo $product_data['price']; ?></p>
     <p>Location: <?php echo $product_data['location']; ?></p>
     <p>Average Rating: <?php echo number_format($avg_rating, 2); ?></p>
@@ -89,7 +100,38 @@ if (isset($_GET['get_id'])) {
     <a href="view_post.php?get_id=<?= $post_id; ?>" class="inline-btn">Back to view post</a>
 
     <!-- custom js file link  -->
-<script src="script.js"></script>
+<!-- Add this script inside the head section or at the end of the body before the closing tag -->
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        // Array of field elements to be checked and hidden
+        const fieldsToHide = [
+            'varietal_information', 'origin', 'health', 'harvest_method',
+            'production_method', 'breeding_method', 'harvest_date', 'production_date',
+            'storage_conditions','preservation_practices','packaging', 'preharvest_treatments', 'postharvest_treatments','vaccination_info','treatment_info'
+        ];
+
+        // Convert PHP variables to JavaScript variables using json_encode
+        const productData = <?php echo json_encode($product_data); ?>;
+
+        // Loop through the fields and hide/show them based on the data
+        fieldsToHide.forEach(fieldName => {
+            const fieldValue = productData[fieldName];
+            const fieldElement = document.getElementById(fieldName);
+
+            if (fieldValue === null || fieldValue.trim() === '') {
+                if (fieldElement) {
+                    fieldElement.style.display = 'none';
+                }
+            } else {
+                if (fieldElement) {
+                    fieldElement.style.display = 'block';
+                }
+            }
+        });
+    });
+</script>
+
+<script src="./js/script.js"></script>
 </body>
 </html>
 <?php

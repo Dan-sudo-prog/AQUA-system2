@@ -45,8 +45,152 @@ if(isset($_POST['delete_review'])){
    <title>view post</title>
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="styles.css">
+
+   <link rel="stylesheet" type="text/css" href="./css/style.css">
+   <style type="text/css">
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* View post section styles */
+.view-post {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.view-post img {
+    max-width: 100%;
+    height: auto;
+}
+
+.row {
+    display: flex;
+}
+
+.col {
+    flex: 1;
+    padding: 20px;
+}
+
+/* User details section styles */
+.user-detail {
+    margin-bottom: 10px;
+}
+
+.user-detail h2 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.user-detail span {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Reviews section styles */
+.reviews-container {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.user img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.ratings p {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.ratings i {
+    margin-right: 5px;
+}
+
+.title {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.description {
+    margin-top: 10px;
+    color: #666;
+}
+
+.flex-btn {
+    display: flex;
+    margin-top: 10px;
+}
+
+.inline-option-btn,
+.inline-delete-btn {
+    margin-right: 10px;
+}
+
+/* Alerts section styles */
+.alert {
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+}
+
+.alert-empty {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+
+   </style>
 
 </head>
 <body>
@@ -61,7 +205,7 @@ if(isset($_POST['delete_review'])){
 
    <div class="heading">
       <h1>post details</h1>
-      <a href="all_posts.php" class="inline-option-btn" style="margin-top: 0;">all posts</a></div>
+      <a href="all_posts.php" class="inline-option-btn">all posts</a></div>
 
 
 
@@ -145,64 +289,8 @@ if ($select_post->rowCount() > 0) {
     // Extract owner details from the fetched data
     $owner_name = $fetch_post['owner_name'];
     $owner_profile_pic = $fetch_post['owner_profile_pic'];
-
-    
-    // Display the owner details along with the post
-    ?>
-    <div style="display: flex; flex-direction: row; align-content: center; align-items: center; float: right; margin-left: 10px;">
-            <!-- Display owner's profile picture -->
-            <?php if ($owner_profile_pic != '') { ?>
-                <img src="uploaded_files/<?= $owner_profile_pic; ?>" alt="Owner's Profile Pic" style="width: 80px; height: 80px; border-radius: 100px; border: 1px solid black; margin-right: 10px;">
-            <?php } else { ?>
-                <!-- Display a default image or initial if no profile picture is available -->
-                <div class="image" style="margin-right: 10px"><?= substr($owner_name, 0, 1); ?></div>
-            <?php } ?>
-                
-            <div class="flex">
-                <!-- Display owner's name and other details -->
-                <div class="user-detail">
-                    <h2><?= $owner_name; ?></h2>
-                    <span style="font-size: 13px;">Owner</span>
-                </div>
-              <?php
-// Check if the user is logged in
-if (!empty($user_id)) {
-    // User is logged in, show the link to view farmer details
-    echo '<a href="user_details.php?get_id=<?=$get_id;?>" id="viewFarmerLink" style="margin-top: 0; font-size: 15px;">View About Farmer</a>';
-} else {
-    // User is not logged in, show the link with a disabled attribute
-    echo '<a href="#" id="viewFarmerLink" style="margin-top: 0; font-size: 15px;" onclick="showLoginMessage(event); return false;">View About Farmer</a>';
-}
-?>
-      
-<!-- JavaScript to display a login message when the link is clicked -->
-<script>
-    function showLoginMessage(event) {
-        event.preventDefault();
-        alert('You need to be logged in to view farmer details.');
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const viewFarmerLink = document.getElementById('viewFarmerLink');
-
-        // Add a click event listener to the link
-        viewFarmerLink.addEventListener('click', function(event) {
-            // Check if the user is logged in
-            if (!<?php echo json_encode(!empty($user_id)); ?>) {
-                // User is not logged in, prevent the default link behavior
-                event.preventDefault();
-            }
-        });
-    });
-</script>
-
-
-
-            </div>
-             
-
-    </div>
-    <?php
+ ?>
+ <?php
 } else {
     echo '<p class="empty">Post is missing!</p>';
 }
@@ -217,8 +305,8 @@ if (!empty($user_id)) {
 
       <div class="row">
          <div class="col">
-         <img src="uploaded_img/<?= $fetch_post['image']; ?>" alt="" class="image">
-         <h3 class="title"><?= $fetch_post['title']; ?></h3>
+         <img src="uploaded_img/<?= $fetch_post['product_image']; ?>" alt="" class="product_image">
+         <h3 class="product_name"><?= $fetch_post['product_name']; ?></h3>
          <a href="view_more.php?get_id=<?= $fetch_post['post_id']; ?>" class="inline-btn fas fa-eye">View Assessment Details</a>
       </div>
       <div class="col">
@@ -270,16 +358,61 @@ if (!empty($user_id)) {
       }
    ?>
 
+     <!-- Display the owner details along with the post -->
+<div>
+            <!-- Display owner's profile picture -->
+            <?php if ($owner_profile_pic != '') { ?>
+                <img src="uploaded_files/<?= $owner_profile_pic; ?>" alt="Owner's Profile Pic">
+            <?php } else { ?>
+                <!-- Display a default image or initial if no profile picture is available -->
+                <div class="image"><?= substr($owner_name, 0, 1); ?></div>
+            <?php } ?>
+                
+            <div class="flex">
+                <!-- Display owner's name and other details -->
+                <div class="user-detail">
+                    <h2><?= $owner_name; ?></h2>
+                    <span>Owner</span>
+                </div>
+              <?php
+// Check if the user is logged in
+if (!empty($user_id)) {
+    // User is logged in, show the link to view farmer details
+    echo '<a href="user_details.php?get_id=<?=$get_id;?>" id="viewFarmerLink" style="margin-top: 0; font-size: 15px;">View About Farmer</a>';
+} else {
+    // User is not logged in, show the link with a disabled attribute
+    echo '<a href="#" id="viewFarmerLink" style="margin-top: 0; font-size: 15px;" onclick="showLoginMessage(event); return false;">View About Farmer</a>';
+}
+?>
+      
+<!-- JavaScript to display a login message when the link is clicked -->
+<script>
+    function showLoginMessage(event) {
+        event.preventDefault();
+        alert('You need to be logged in to view farmer details.');
+    }
 
+    document.addEventListener("DOMContentLoaded", function() {
+        const viewFarmerLink = document.getElementById('viewFarmerLink');
 
+        // Add a click event listener to the link
+        viewFarmerLink.addEventListener('click', function(event) {
+            // Check if the user is logged in
+            if (!<?php echo json_encode(!empty($user_id)); ?>) {
+                // User is not logged in, prevent the default link behavior
+                event.preventDefault();
+            }
+        });
+    });
+</script>
 
-
-
+</div>
+             
+</div>
 
 
 
 </section>
-
 <!-- view posts section ends -->
 
 <!-- reviews section starts  -->
@@ -379,7 +512,7 @@ if (!empty($user_id)) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
 <!-- custom js file link  -->
-<script src="script.js"></script>
+<script src="./js/script.js"></script>
 
 <?php include 'components/alerts.php'; ?>
 

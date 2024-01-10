@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
 <?php
 if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
    $link = 'all_posts.php';
@@ -5,9 +10,20 @@ if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
    $link = 'index.php';
 }
 ?>
+
 <header class="header">
    <section class="flex">
-      <a href="all_posts.php" class="logo"><img src="components/logo.webp" alt="Logo."/></a>
+      <div class="up">
+         <a href="#" class="logo"><img src="components/logo.webp" alt="Logo."/></a>
+         <!-- Search Form in index.php -->
+         <form action="search_results.php" method="GET" class="form">
+            <div class="search-bar-container">
+               <input type="text" name="query" class="search-input" placeholder="Search products ...">
+               <button type="submit" class="search-button"><i class="fas fa-search user-button"></i></button>
+            </div>
+         </form>
+      </div>
+      <div class="menu-container">
       <span class="top">
          <ul>
             <li><a href="<?php echo $link; ?>" style="color: var(--white);" onmouseover="this.style.color='green';" onmouseout="this.style.color='white';">Home</a></li>
@@ -29,17 +45,19 @@ if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
             <li><a href="market_prices.php" style="color: var(--white);" onmouseover="this.style.color='green';" onmouseout="this.style.color='white';">Market Prices</a></li>
             <li><a href="about.php" style="color: var(--white);" onmouseover="this.style.color='green';" onmouseout="this.style.color='white';">About Us</a></li>
          </ul>
-      </span>
+      
 
-      <!-- Search Form in index.php -->
-      <?php include 'components/search.php'; ?>
+         
+   </div>
+
 
       <nav class="navbar">
+         <div class="kul">
          <?php
             if($user_id == ''){ // Check if the user is not logged in
          ?>
-            <a href="login.php" style="color: var(--white); background-color: rgba(0, 0, 0, 0.0);" onmouseover="this.style.color='green';" onmouseout="this.style.color='white';">Login</a>
-            <a href="register.php" style="color: var(--white); background-color: rgba(0, 0, 0, 0.0);" onmouseover="this.style.color='green';" onmouseout="this.style.color='white';">Register</a>
+            <a href="login.php" style="color: var(--white); background-color: rgba(0, 0, 0, 0.0);" onmouseover="this.style.color='green';" onmouseout="this.style.color='var(--white)';">Login</a>
+            <a href="register.php" style="color: var(--white); background-color: rgba(0, 0, 0, 0.0);" onmouseover="this.style.color='green';" onmouseout="this.style.color='var(--white)';">Register</a>
          <?php
             }
          ?>
@@ -47,7 +65,12 @@ if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
          <?php
             if($user_id != ''){
          ?>
-         <div id="user-btn" class="far fa-user"></div>
+
+         
+            <div class="menu-icon">&#9776;</div>
+            <div id="user-btn" class="far fa-user user-btn"></div>
+         </div>
+
          <?php }; ?>
       </nav>
 
@@ -71,7 +94,7 @@ if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
                
                if($fetch_profile['profile_image'] != ''){ ?>
                   <img src="uploaded_files/<?= $fetch_profile['profile_image']; ?>" alt="" class="image">
-               <?php }; ?>   
+               <?php } else {; ?> <div class="far fa-user user-btn"></div> <?php }; ?>
                <p><?= $fetch_profile['name']; ?></p>
                
                <?php
@@ -87,10 +110,25 @@ if (isset($_POST['user_id']) && !empty($_POST['user_id'])) {
                   <a href="login.php" class="inline-option-btn">login</a>
                   <a href="register.php" class="inline-option-btn">register</a>
                </div>
+               </span>
             <?php };
             echo '</div>';
          }
       ?>
+      
 
    </section>
+
 </header>
+<script type="text/javascript">
+   document.addEventListener("DOMContentLoaded", function () {
+   var menuIcon = document.querySelector(".menu-icon");
+   var menu = document.querySelector(".header ul");
+
+   menuIcon.addEventListener("click", function () {
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+   });
+});
+</script>
+</body>
+</html>
