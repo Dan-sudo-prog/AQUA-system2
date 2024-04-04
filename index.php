@@ -1,23 +1,26 @@
+<?php include 'components/connect.php';?>
 <!DOCTYPE html>
-<?php
-include 'components/connect.php';
-// Check if the user is logged in and retrieve the user_id
-$user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
-?>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Home</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofGJFCBbA5CFi6LAAJp2iTpXuUUTdPxrL2" crossorigin="anonymous">
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Home</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-DzpqFhsgN3yJBeWr0YHzl2BqGvtfPu3v0RXVHwN1mT+3vALOqkC4x8l3RvW6bnVgj5NTBRDf+/Ibr+ndVVaF3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+   <!-- --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofGJFCBbA5CFi6LAAJp2iTpXuUUTdPxrL2" crossorigin="anonymous"> <!-- -->
    <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
-	<link rel="stylesheet" href="./css/style.css">
+   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+<?php include 'components/header.php'; ?>
 <div id="container">
-   <?php include 'components/header.php'; ?>
+   <?php
+      // Check if the user is logged in and retrieve the user_id
+      // $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
+      $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
+   ?>
 <div id="body">
-   <section class="welcome">
+<section class="welcome">
    <div class="container">
       <h1 style="color: darkolivegreen; font-weight: bolder;">Welcome to Agricultural Products <br/> Quality Assessment System</h1>
       <h3 style="color: darkolivegreen; font-weight: bolder;">Discover and Review the Quality of Agricultural Products</h3>
@@ -28,7 +31,7 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
    <div class="heading"><h1 style="">Categories</h1></div>
    <div class="box-container">
       <div class="box">
-         <img src="images/grain.jpeg" class="image">
+         <img src="images/legumes.png" class="image">
          <h3 class="title"><a href="search_results.php?query=Legumes">Legumes</a></h3>
       </div>
       <div class="box">
@@ -36,11 +39,11 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
          <h3 class="title"><a href="search_results.php?query=Grain Foods">Grain Foods</a></h3>
       </div>
       <div class="box">
-         <img src="images/legumes.png" class="image">
+         <img src="images/vegetables.png" class="image">
          <h3 class="title"><a href="search_results.php?query=Vegetables">Vegetables</a></h3>
       </div>
       <div class="box">
-         <img src="images/foods.png" class="image">
+         <img src="images/dairy.png" class="image">
          <h3 class="title"><a href="search_results.php?query=Dairy Products">Dairy Products</a></h3>
       </div>
       <div class="box">
@@ -56,11 +59,11 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
          <h3 class="title"><a href="search_results.php?query=Fresh Foods">Fresh Foods</a></h3>
       </div>
       <div class="box">
-         <img src="images/foods.png" class="image">
+         <img src="images/OIP.jpeg" class="image">
          <h3 class="title"><a href="search_results.php?query=Animals">Animals</a></h3>
       </div>
       <div class="box">
-         <img src="images/foods.png" class="image">
+         <img src="images/birds.png" class="image">
          <h3 class="title"><a href="search_results.php?query=Birds">Birds</a></h3>
       </div>
       <!-- Add more category boxes here -->
@@ -69,12 +72,27 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
 
 <!-- View all posts section starts  -->
 <section class="all-posts" style="background-color: lightblue;">
-   <div class="heading"><h1 style="">Featured Products</h1></div>
-   <div class="box-container">
-      <?php
-      // Query to select posts
-      $select_posts = $conn->prepare("SELECT * FROM `posts`");
-      $select_posts->execute();
+            <div class="heading">
+                <h1 style="">Featured Products</h1>
+            </div>
+            <div class="box-container">
+                <?php
+      // Define the number of posts per page and get the current page from the query string
+$postsPerPage = 9;
+if (isset($_GET['page'])) {
+    $currentPage = intval($_GET['page']);
+} else {
+    $currentPage = 1; // Default to the first page
+}
+
+// Calculate the offset for the SQL query
+$offset = ($currentPage - 1) * $postsPerPage;
+
+// Query to select posts with pagination
+$select_posts = $conn->prepare("SELECT * FROM `posts` LIMIT :limit OFFSET :offset");
+$select_posts->bindParam(':limit', $postsPerPage, PDO::PARAM_INT);
+$select_posts->bindParam(':offset', $offset, PDO::PARAM_INT);
+$select_posts->execute();
 
       if ($select_posts->rowCount() > 0) {
          while ($fetch_post = $select_posts->fetch(PDO::FETCH_ASSOC)) {
@@ -98,16 +116,22 @@ if (file_exists($imagePath)) {
    <h3 class="title"><?= $fetch_post['product_name']; ?></h3>
    <p class="total-reviews"><i class="fas fa-star"></i> <span><?= $total_reviews; ?></span></p>
    <a href="view_post.php?get_id=<?= $post_id; ?>" class="inline-btn">view post</a>
-      </div>
+</div>
 
       <?php
          }
-      } else {
-         echo '<p class="empty">no posts added yet!</p>';
-      }
-      ?>
-   </div>
-</section>
+         $prevPage = $currentPage - 1;
+    echo '<a href="?page=' . $prevPage . '">Previous</a>';
+      // Add "Next" button if there are more posts
+    $nextPage = $currentPage + 1;
+    echo '<a href="?page=' . $nextPage . '">Next</a>';
+} else {
+    echo '<p class="empty">No posts added yet!</p>';
+}
+?>
+            </div>
+        </section>
+
 <!-- View all posts section ends -->
 <section class="all-posts" style="background-color: cyan;">
    <div class="heading">
@@ -115,26 +139,26 @@ if (file_exists($imagePath)) {
    </div>
    <div class="slideshow-container">
     
-      <div class="mySlides" style="background-image: url('new/images5.jpeg');">
+      <div class="mySlides" style="background-image: url('images/images5.jpeg');">
          <div class="slide-content">
             <!-- Content for Slide 1 -->
             <p>Farmers can list their products on our platform.</p>
          </div>
       </div>
 
-      <div class="mySlides"  style="background-image: url('new/images10.jpeg');">
+      <div class="mySlides"  style="background-image: url('images/images10.jpeg');">
          <div class="slide-content">
             <!-- Content for Slide 2 -->
             <p>Users can browse products, rate them, and write reviews.</p>
          </div>
       </div>
-      <div class="mySlides" style="background-image: url('new/images6.jpeg');">
+      <div class="mySlides" style="background-image: url('images/images6.jpeg');">
          <div class="slide-content">
             <!-- Content for Slide 2 -->
             <p>Make informed decisions for your farming needs.</p>
          </div>
       </div>
-      <div class="mySlides" style="background-image: url('new/images3.jpeg');">
+      <div class="mySlides" style="background-image: url('images/images3.jpeg');">
          <div class="slide-content">
             <!-- Content for Slide 2 -->
             <p>Take part in quality assessment for your preferences</p>
@@ -192,14 +216,15 @@ if (file_exists($imagePath)) {
       </div>
       <div id="popup" class="popup">
          <h2>Write a Testimonial</h2>
-         <form method="post" action="submit_testimonial.php" id="testimonial-form" class="form1">
+         <form method="post" action="submit_testimonial.php" id="testimonial-form">
             <label for="name">Name:</label>
                <input type="text" name="user" placeholder="Write your name" required>
             <label for="location">Location</label>
                <input type="text" name="location" placeholder="Write your location" required>
             <label for="testimonial">Testimonial</label>
                <textarea name="testimonial" placeholder="Write your testimonial here..." cols="50" rows="4" required></textarea><br>
-            <button>Submit</button><button onclick="closePopup();">Close</button>
+            <button type="submit" name="submit" >Submit</button>
+            <button onclick="closePopup();">Close</button>
             <script type="text/javascript">
                      let popup = document.getElementById("popup");
                      function openPopup() {
@@ -211,8 +236,9 @@ if (file_exists($imagePath)) {
             </script>
          </form>
       </div>
-   </div>
 </section>
+</div>
+
 
 
 
@@ -224,7 +250,7 @@ if (file_exists($imagePath)) {
 
 
 <footer id="footer">
-   <div class="footer"><br>
+   <div class="footer">
       <p style="">Contact Us: <a href="mailto: aquasystems@gmail.com">aquasystems@gmail.com</a></p><br>
       <nav>
          <ul>
@@ -238,11 +264,9 @@ if (file_exists($imagePath)) {
         <p>&copy; <?php echo date("Y"); ?> Agricultural products Quality Assessment System. All Rights Reserved.</p>
     </div>
 </footer>
-
-</div>
 </div>
 <script type="text/javascript" src="js/script.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script> -->
 
 </body>
 </html>

@@ -1,75 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>all posts</title>
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="styles.css">
-
-   <?php
-include 'components/connect.php';
-
-// Check if the user is logged in and retrieve the id
-$user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
-
-?>
-
-   <!-- Custom CSS file link -->
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofGJFCBbA5CFi6LAAJp2iTpXuUUTdPxrL2" crossorigin="anonymous"> -->
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-   
-<!-- Header section starts  -->
-<?php include 'components/header.php'; ?>
-<!-- Header section ends -->
-<!-- Category section starts here -->
-<section class="all-posts">
-   <div class="heading"><h1>Categories</h1></div>
-   <div class="box-container">
-      <div class="box">
-         <img src="images/grain.jpeg" class="image">
-         <h3 class="title"><a href="search_results.php?query=Legumes &amp; Grain foods">Legumes &amp; Grain foods</a></h3>
-      </div>
-      <div class="box">
-         <img src="images/legumes.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Vegetables">Vegetables</a></h3>
-      </div>
-      <div class="box">
-         <img src="images/diary.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Poultry">Poultry Products</a></h3>
-      </div>
-      <div class="box">
-         <img src="images/foods.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Dairy Products">Dairy Products</a></h3>
-      </div>
-      <div class="box">
-         <img src="images/fruits.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Fruits">Fruits</a></h3>
-      </div>
-      <div class="box">
-         <img src="images/meat.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Meat">Meat</a></h3>
-      </div>
-      <div class="box">
-         <img src="images/foods.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Fresh Foods">Fresh Foods</a></h3>
-      </div>
-      <div class="box">
-         <img src="images/foods.png" class="image">
-         <h3 class="title"><a href="search_results.php?query=Animals">Animals</a></h3>
-      </div>
-      <!-- Add more category boxes here -->
-   </div>
-</section>
-<!-- Category section ends here -->
+<div id="container">
+    <?php
+    // Include connection and header files
+    include_once 'components/connect.php';
+    include 'components/header.php';
+    if (isset($_SESSION["user_id"])) {
+            $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
+    } else {
+      header("Location: index.php");
+      exit;
+    }
+    ?>
 
-<!-- View all posts section starts  -->
-<section class="all-posts">
-   <div class="heading"><h1>Featured Products</h1></div>
-   <div class="box-container">
-      <?php
+   <div id="body">
+        <!-- ... rest of your code ... -->
+
+        <!-- View all posts section starts  -->
+        <section class="all-posts" style="background-color: lightblue;">
+            <div class="heading">
+                <h1 style="">Featured Products</h1>
+            </div>
+            <div class="box-container">
+                <?php
       // Define the number of posts per page and get the current page from the query string
 $postsPerPage = 9;
 if (isset($_GET['page'])) {
@@ -98,7 +60,7 @@ $select_posts->execute();
       ?>
             <div class="box">
    <?php
-  $imagePath = "uploaded_img/" . $fetch_post['image'];
+  $imagePath = "uploaded_img/" . $fetch_post['product_image'];
 if (file_exists($imagePath)) {
     echo '<img src="' . $imagePath . '" alt="" class="image">';
 } else {
@@ -106,13 +68,15 @@ if (file_exists($imagePath)) {
 }
 
    ?>
-   <h3 class="title"><?= $fetch_post['title']; ?></h3>
+   <h3 class="title"><?= $fetch_post['product_name']; ?></h3>
    <p class="total-reviews"><i class="fas fa-star"></i> <span><?= $total_reviews; ?></span></p>
    <a href="view_post.php?get_id=<?= $post_id; ?>" class="inline-btn">view post</a>
 </div>
 
       <?php
          }
+         $prevPage = $currentPage - 1;
+    echo '<a href="?page=' . $prevPage . '">Previous</a>';
       // Add "Next" button if there are more posts
     $nextPage = $currentPage + 1;
     echo '<a href="?page=' . $nextPage . '">Next</a>';
@@ -120,27 +84,130 @@ if (file_exists($imagePath)) {
     echo '<p class="empty">No posts added yet!</p>';
 }
 ?>
-   </div>
-</section>
-<!-- View all posts section ends -->
-<!-- <section>
-   <h2>Send Message</h2>
-<form method="post" action="send_message.php">
-    <input type="text" name="sender_name" placeholder="Your name" required>
-    <textarea name="message_text" placeholder="Type your message" required></textarea>
-    <button type="submit">Send</button>
-</form>
-</section> -->
+            </div>
+        </section>
+        <!-- View all posts section ends -->
 
-<?php include 'components/footer.php'; ?>
+         <section class="all-posts" style="background-color: cyan;">
+         <div class="heading">
+            <h1 style="">How it Works</h1>
+         </div>
+         <div class="slideshow-container">
+            <div class="mySlides" style="background-image: url('images/images5.jpeg');">
+               <div class="slide-content">
+            <!-- Content for Slide 1 -->
+                  <p>Farmers can list their products on our platform.</p>
+               </div>
+            </div>
 
-<!-- SweetAlert CDN link -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+            <div class="mySlides"  style="background-image: url('images/images10.jpeg');">
+               <div class="slide-content">
+            <!-- Content for Slide 2 -->
+                  <p>Users can browse products, rate them, and write reviews.</p>
+               </div>
+            </div>
+            <div class="mySlides" style="background-image: url('images/images6.jpeg');">
+               <div class="slide-content">
+            <!-- Content for Slide 2 -->
+                  <p>Make informed decisions for your farming needs.</p>
+               </div>
+            </div>
+            <div class="mySlides" style="background-image: url('images/images3.jpeg');">
+               <div class="slide-content">
+            <!-- Content for Slide 2 -->
+                  <p>Take part in quality assessment for your preferences</p>
+               </div>
+            </div>
+            <button class="prev" onclick="plusSlides(-1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="next" onclick="plusSlides(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <script>
+               let slideIndex = 0;
+               showSlides();
+    
+               function plusSlides(n) {
+                  showSlides(slideIndex += n);
+               }
+    
+               function showSlides() {
+                  let i;
+                  const slides = document.getElementsByClassName("mySlides");
+    
+                  if (slideIndex >= slides.length) {
+                     slideIndex = 0;
+                  }
+                  if (slideIndex < 0) {
+                     slideIndex = slides.length - 1;
+                  }
+    
+                  for (i = 0; i < slides.length; i++) {
+                     slides[i].style.display = "none";
+                  }
+    
+                  slides[slideIndex].style.display = "block";
+    
+    // Automatically advance slides every 3 seconds (adjust the time interval as needed)
+                  setTimeout(function() {
+                     plusSlides(1);
+                  }, 3000);
+               }
+    
+            </script>
+         </section>
 
-<!-- Custom JavaScript file link -->
-<script src="script.js"></script>
+         <section class="all-posts" style="background-color: lightgrey;">
+            <div class="heading"><h1>What our Users Say</h1></div>
+            
+            <div class="r5">
+               <p>Know what others say about us</p>
+               <p>Help us improve by writing a testimonial to us if you have not yet done so.</p>
+            </div>
 
-<?php include 'components/alerts.php'; ?>
-
+            <div class="testimonial">
+               <button onclick="openPopup();">Write a testimonial</button>
+               <a href="testimonials.php">View testimonials</a>
+            </div>
+            <div id="popup" class="popup">
+               <h2>Write a Testimonial</h2>
+               <form method="post" action="submit_testimonial.php" id="testimonial-form" class="form1">
+                  <label for="name">Name:</label>
+                  <input type="text" name="user" placeholder="Write your name" required>
+                  <label for="location">Location</label>
+                  <input type="text" name="location" placeholder="Write your location" required>
+                  <label for="testimonial">Testimonial</label>
+                  <textarea name="testimonial" placeholder="Write your testimonial here..." cols="50" rows="4" required></textarea><br>
+                  <button>Submit</button><button onclick="closePopup();">Close</button>
+                  <script type="text/javascript">
+                     let popup = document.getElementById("popup");
+                     function openPopup() {
+                        popup.classList.add("open-popup");
+                     }
+                     function closePopup() {
+                        popup.classList.remove("open-popup");
+                     }
+                  </script>
+               </form>
+            </div>
+         </section>
+</div>
+         <footer id="footer">
+            <div class="footer"><br>
+               <p style="">Contact Us: <a href="mailto: aquasystems@gmail.com">aquasystems@gmail.com</a></p><br>
+               <nav>
+                  <ul>
+                     <li><a href="policy.php">Privacy Policy</a></li>|
+                     <li><a href="policy.php#terms">Terms of Service</a></li>|
+                     <li><a href="about.php">About Us</a></li>
+                  </ul>
+               </nav><br/>
+            </div>   
+            <div class="footer">
+               <p>&copy; <?php echo date("Y"); ?> Agricultural products Quality Assessment System. All Rights Reserved.</p>
+            </div>
+         </footer>
+   
+</div>
+<script type="text/javascript" src="js/script.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script> -->
 </body>
 </html>

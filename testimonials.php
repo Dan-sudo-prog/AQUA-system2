@@ -9,8 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Testimonials</title>
 
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
   
   <style>
     /* Basic styling for the testimonials section */
@@ -23,12 +22,7 @@ body {
   font-size: 16px;
 }
 
-.container {
-  max-width: 1800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
+/* Additional styling for the testimonials section */
 .testimonials {
   padding: 50px 0;
   text-align: center;
@@ -42,21 +36,31 @@ body {
 .testimonial {
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: #fff;
   margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .testimonial p {
   font-size: 1.2rem;
   margin: 0;
+  color: #555;
 }
 
 .testimonial .user-info {
   margin-top: 10px;
   font-style: italic;
+  color: #888;
 }
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 </style>
+<script src="./js/script.js" defer></script>
 </head>
 <body>
   <!-- header section starts  -->

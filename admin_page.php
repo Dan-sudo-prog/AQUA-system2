@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +9,8 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>admin page</title>
    <!-- Include your CSS and other HTML head content -->
+   <link rel="stylesheet" href="./css/cdnjs/sweetalert2.min.css">
+   <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
    <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <style type="text/css">
@@ -85,22 +90,7 @@
    background: var(--white);
    text-transform: none;
 }
-.btn{
-   display: block;
-   width: 100%;
-   cursor: pointer;
-   border-radius: .5rem;
-   margin-top: 1rem;
-   font-size: 1.7rem;
-   padding:1rem 3rem;
-   background: var(--orange);
-   color:var(--white);
-   text-align: center;
-}
 
-.btn:hover{
-   background: var(--black);
-}
 
 .scroll-container {
     overflow-y: scroll;
@@ -110,86 +100,225 @@
     font-size: 2rem;
 }
 
-.message{
-   display: block;
-   background: var(--bg-color);
-   padding:1.5rem 1rem;
-   font-size: 2rem;
-   color:var(--black);
-   margin-bottom: 2rem;
-   text-align: center;
+
+@media (max-width:991px){
+
+   html{
+      font-size: 55%;
+   }
+
 }
 
-.container{
-   max-width: 1200px;
-   padding:2rem;
-   margin:0 auto;
+@media (max-width:768px){
+
+   .product-display{
+      overflow-y:scroll;
+   }
+
+   .product-display .product-display-table{
+      width: 80rem;
+   }
+
 }
 
-/* Add this section at the end of your existing styles */
-@media only screen and (max-width: 768px) {
-  .product-display .product-display-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+@media (max-width:450px){
 
-  .product-display .product-display-table thead,
-  .product-display .product-display-table tbody,
-  .product-display .product-display-table tr,
-  .product-display .product-display-table th,
-  .product-display .product-display-table td {
-    display: block;
-  }
+   html{
+      font-size: 50%;
+   }
 
-  .product-display .product-display-table thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  .product-display .product-display-table tr {
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-  }
-
-  .product-display .product-display-table td {
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50%;
-  }
-
-  .product-display .product-display-table td:before {
-    content: attr(data-th) ": ";
-    font-weight: bold;
-    position: absolute;
-    left: 5px;
-    width: 45%;
-    white-space: nowrap;
-  }
 }
-
 
 
 </style>
 <body>
 <?php
-if (!empty($message)) {
-    foreach ($message as $msg) {
-        echo '<span class="message">' . $msg . '</span>';
+include "components/connect.php";
+include "components/header.php";
+// Initialize user_id variable
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Input validation and sanitization (add your validation logic here)
+
+    $product_type = $_POST['product_type'];
+    $product_name = $_POST['product_name'];
+    $product_image = $_FILES['product_image']['name'];
+    $product_image_tmp_name = $_FILES['product_image']['tmp_name'];
+    $product_image_folder = 'uploaded_img/' . $product_image;
+    $description = $_POST['description'];
+    $varietal_information = $_POST['varietal_information'];
+    $origin = $_POST['origin'];
+    $health = $_POST['health'];
+    $harvest_method = $_POST['harvest_method'];
+    $production_method = $_POST['production_method'];
+    $breeding_method = $_POST['breeding_method'];
+    $harvest_date = $_POST['harvest_date'];
+    $production_date = $_POST['production_date'];
+    $storage_conditions = $_POST['storage_conditions'];
+    $preservation_practices = $_POST['preservation_practices'];
+    $packaging = $_POST['packaging'];
+    $preharvest_treatments = $_POST['preharvest_treatments'];
+    $postharvest_treatments = $_POST['postharvest_treatments'];
+    $vaccination_info = $_POST['vaccination_info'];
+    $treatment_info = $_POST['treatment_info'];
+    $price = $_POST['price'];
+    $location = $_POST['location'];
+
+    if (empty($product_type) || empty($product_name) || empty($product_image) ||empty($description) || empty($price) || empty($location)) {
+        $warning_msg[] = 'Please fill out all fields.';
+    } else {
+        try {
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Generate a unique ID
+            $post_id = generate_unique_id();
+
+            // Prepare the SQL statement
+            $insert = "INSERT INTO posts(post_id, user_id, product_type, product_name, product_image, description, price, location";
+
+            // Capture additional fields based on the selected category
+            switch ($product_type) {
+                case 'Legumes':
+                    $additionalFields = [
+                        'varietal_information',
+                        'origin',
+                        'harvest_method',
+                        'harvest_date',
+                        'storage_conditions',
+                        'preharvest_treatments',
+                        'postharvest_treatments'
+                    ];
+                    break;
+                case 'Grain Foods':
+                case 'Vegetables':
+                case 'Fruits':
+                case 'Fresh Foods':
+                    $additionalFields = [
+                        'varietal_information',
+                        'origin',
+                        'harvest_method',
+                        'harvest_date',
+                        'storage_conditions',
+                        'preharvest_treatments',
+                        'postharvest_treatments'
+                    ];
+                    break;
+                case 'Dairy':
+                    $additionalFields = [
+                        'varietal_information',
+                        'production_method',
+                        'production_date',
+                        'storage_conditions',
+                        'packaging'
+                    ];
+                    break;
+                case 'Meat':
+                    $additionalFields = [
+                        'varietal_information',
+                        'preservation_practices'
+                    ];
+                    break;
+                case 'Animals':
+                case 'Birds':
+                    $additionalFields = [
+                        'varietal_information',
+                        'health',
+                        'breeding_method',
+                        'vaccination_info',
+                        'treatment_info'
+                    ];
+                    break;
+                // Add cases for other categories if needed
+                default:
+                    $additionalFields = [];
+                    break;
+            }
+
+            // Add additional fields to the SQL statement
+            foreach ($additionalFields as $field) {
+                $insert .= ", $field";
+            }
+
+            $insert .= ") VALUES(:post_id, :user_id, :product_type, :product_name, :product_image, :description, :price, :location";
+
+            // Add additional parameters to the SQL statement
+            foreach ($additionalFields as $field) {
+                $insert .= ", :$field";
+            }
+
+            $insert .= ")";
+
+            // Prepare the SQL statement
+            $stmt = $conn->prepare($insert);
+
+            if (!$stmt) {
+                die('Error in statement preparation: ' . $conn->errorInfo());
+            }
+
+            // Bind parameters
+            $stmt->bindParam(':post_id', $post_id, PDO::PARAM_STR);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+            $stmt->bindParam(':product_type', $product_type, PDO::PARAM_STR);
+            $stmt->bindParam(':product_name', $product_name, PDO::PARAM_STR);
+            $stmt->bindParam(':product_image', $product_image, PDO::PARAM_STR);
+            $stmt->bindParam(':description', $description, PDO::PARAM_STR);            
+            $stmt->bindParam(':price', $price, PDO::PARAM_INT);
+            $stmt->bindParam(':location', $location, PDO::PARAM_STR);
+
+            // Bind additional parameters to the prepared statement
+            foreach ($additionalFields as $field) {
+                $$field = isset($_POST[$field]) ? $_POST[$field] : null;
+                $stmt->bindParam(":$field", $$field, PDO::PARAM_STR);
+            }
+
+            // Execute the statement
+            if ($stmt->execute()) {
+                move_uploaded_file($product_image_tmp_name, $product_image_folder);
+                $success_msg[] = 'New product added successfully.';
+                $stmt->closeCursor();
+            } else {
+                $error_msg[] = 'Failed to add the product. Please try again later.';
+                error_log('Database Error: ' . implode(', ', $stmt->errorInfo()));
+            }
+
+            // Unset the statement to release resources
+            unset($stmt);
+        } catch (PDOException $e) {
+            $warning_msg[] = 'Database error: ' . $e->getMessage();
+        }
+    }
+
+} else {
+    // Handle other actions if needed
+}
+
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    try {
+        // Prepare the SQL statement for deleting a record
+        $delete = "DELETE FROM reviews WHERE post_id = :id; DELETE FROM posts WHERE post_id = :id;";
+        $deleteStmt = $conn->prepare($delete);
+        $deleteStmt->bindParam(':id', $id);
+        
+        if ($deleteStmt->execute()) {
+            $deleteStmt->closeCursor();
+        } else {
+            $error_msg[] = 'Failed to delete the product. Please try again later.';
+        }
+    } catch (PDOException $e) {
+        $warning_msg[] = 'Database error: ' . $e->getMessage();
     }
 }
 ?>
-
    
    <div class="container">
       <!-- Content container -->
 
-      
+    
 
       <!-- Product display table -->
 <div class="product-display">
+    <a href="#add_product" class="btn">Add New Product</a>
    <table class="product-display-table">
       <thead>
          <tr>
@@ -202,7 +331,6 @@ if (!empty($message)) {
       </thead>
       <!-- Loop through products and display them in rows -->
       <?php
-      @include "components/connect.php";
       try {
           // Prepare and execute a SQL query to fetch product data
           $select = $conn->prepare("SELECT * from posts WHERE user_id = ?;");
@@ -215,12 +343,12 @@ if (!empty($message)) {
          <tr>
             <td><img src="uploaded_img/<?php echo $row['product_image']; ?>" height="100" alt=""></td>
             <td><?php echo $row['product_name']; ?></td>
-            <td><?php echo '' ?></td>
-            <td>$<?php echo $row['price']; ?>/-</td>
+            <td><?php echo '<a href="recommendations.php" class="btn">View Information</a>' ?></td>
+            <td>Ugx <?php echo $row['price']; ?>/-</td>
             <td>
                <!-- Edit and delete actions for each product -->
                <a href="admin_update.php?edit=<?php echo $row['post_id']; ?>" class="btn"><i class="fas fa-edit"></i> Edit</a>
-               <a href="admin_page.php?delete=<?php echo $row['post_id']; ?>" class="btn"><i class="fas fa-trash"></i> Delete</a>
+               <a href="<?php echo $_SERVER['PHP_SELF']?>?delete=<?php echo $row['post_id']; ?>" class="btn"><i class="fas fa-trash"></i> Delete</a>
                <a href="view_post.php?get_id=<?php echo $row['post_id']; ?>" class="btn"><i class="fas fa-eye"></i>View post</a>
             </td>
          </tr>
@@ -234,12 +362,12 @@ if (!empty($message)) {
 </div>
 <!-- Add a new product form -->
       <div class="admin-product-form-container">
-<form action="admin_page_submisson.php" method="post" enctype="multipart/form-data" class="admin-page-form">
-    <h3>Add a New Product</h3>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" class="admin-page-form" id="myForm">
+    <h3 id="add_product">Add a New Product</h3>
     <!-- Input fields for product details -->
     <div class="scroll-container">
         <label for="product_type" class="note">
-            <font style="color: red;">Note</font>: if you do not know the category of your product, click <a href="#">here</a> to know about categories.<br><br>Select product type/category:
+            <font style="color: red;">Note</font>: If you need assistance in filling in the information, click <a href="#">here</a> to get more information.<br><br>Select product type/category:
         </label>
         <select name="product_type" id="product_type" class="box">
             <option value="" disabled selected> Choose a category</option>
@@ -266,8 +394,8 @@ if (!empty($message)) {
             <input type="text" placeholder="Enter harvest method used" id="harvest_method" name="harvest_method" class="box" style="display: none;">
             <input type="text" placeholder="Enter production method" id="production_method" name="production_method" class="box" style="display: none;">
             <input type="text" placeholder="Enter breeding and rearing method used" id="breeding_method" name="breeding_method" class="box" style="display: none;">
-            <input type="text" placeholder="Enter harvest date" id="harvest_date" name="harvest_date" class="box" style="display: none;">
-            <input type="text" placeholder="Enter production date" id="production_date" name="production_date" class="box" style="display: none;">
+            <input type="text" placeholder="Enter harvest date(YYYY-MM-DD)" id="harvest_date" name="harvest_date" class="box" style="display: none;">
+            <input type="text" placeholder="Enter production date(YYYY-MM-DD)" id="production_date" name="production_date" class="box" style="display: none;">
             <input type="text" placeholder="Enter product storage condition" name="storage_conditions" id="storage_conditions" class="box" style="display: none;">
             <input type="text" placeholder="Enter preservation practices" id="preservation_practices" name="preservation_practices" class="box" style="display: none;">
             <input type="text" placeholder="Enter packaging details" id="packaging" name="packaging" class="box" style="display: none;">
@@ -281,11 +409,12 @@ if (!empty($message)) {
         <input type="text" placeholder="Enter product location details" name="location" class="box">
     </div>
     <!-- Submit button to add a new product -->
-    <button class="btn">Add Product</button>
+    <button class="btn" id="submitBtn">Add Product</button>
 </form>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
     const productType = document.getElementById("product_type");
     const varietal_information = document.getElementById("varietal_information");
     const origin = document.getElementById("origin");
@@ -371,7 +500,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
    </div>
    <!-- sweetalert cdn link  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="./js/cdnjs/sweetalert2.all.min.js"></script>
 
 <!-- custom js file link  -->
 <script src="./js/script.js"></script>

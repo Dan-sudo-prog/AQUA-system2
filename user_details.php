@@ -1,33 +1,35 @@
 <?php
 // Include your database connection code here (PDO)
 include 'components/connect.php';
-// $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : (isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '');
+
 if (isset($_GET['get_id'])) {
     $get_id = $_GET['get_id'];
-} else {
-    $get_id = '';
-    header('location: all_posts.php');
-}
-$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : (isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '');
-// Check if a valid user_id is provided in the URL
-if (!empty($user_id)) {
-    // Fetch user details from the database based on user_id
-    $stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
-    $stmt->execute([$user_id]);
-    
-    if($stmt->rowCount() > 0) {
-        // User found, fetch user data
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    } else {
-        // User not found
-        $error_message = 'User not found.';
-    }
-} else {
-    // No user_id provided in the URL
-    $error_message = 'User ID not provided.';
 }
 
-// Include your HTML header, navigation, or any other common elements here
+// Check if a valid user_id is provided in the URL
+try {
+    if (!empty($get_id)) {
+    // Fetch user details from the database based on user_id
+        // $stmt = $conn->prepare("SELECT posts.user_id, posts.post_id, users.* FROM users INNER JOIN posts ON posts.user_id = users.user_id WHERE posts.user_id = users.user_id;");
+        $stmt = $conn->prepare("SELECT users.* FROM users JOIN posts ON users.user_id = posts.user_id WHERE posts.post_id = ?;");
+        $stmt->execute([$get_id]);
+    
+        if($stmt->rowCount() > 0) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+        // User not found
+        $error_msg[] = 'User not found.';
+        }
+    } else {
+    // No user_id provided in the URL
+    $error_msg[] = 'User ID not provided.';
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getmessage();
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -38,40 +40,41 @@ if (!empty($user_id)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Details</title>
     <!-- Add your CSS styles here -->
-    <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./css/cdnjs/sweetalert2.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
    <style type="text/css">
 .user-details {
     margin: 20px auto;
     padding: 20px;
     max-width: 1200px;
-    background-color: #fff;
+    background-color: #cff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 .user-details h2 {
-    background-color: #00eE00;
-    color: #fff;
+    background-color: rgba(100, 255, 100, 0.5);
+    color: #000;
     padding: 10px;
     text-align: left;
     font-size: 20px;
-    border-radius: 20px;
+    border-radius: 15px;
 }
 .details {
     margin: 10px auto;
-    background-color: #0a0;
-    color: #fff;
+    background-color: rgba(100, 255, 100, 0.3);
+    color: #000;
     padding: 10px;
     text-align: left;
     font-size: 20px;
-    border-radius: 20px;
+    border-radius: 15px;
 }
 </style>
 </head>
 <body>
     <!-- Add your navigation or header section here -->
     <!-- header section starts  -->
-<?php include 'components/header.php'; ?>
+<?php include 'components/header.php';?>
 <!-- header section ends -->
     <main>
         <div class="user-details">
@@ -85,16 +88,17 @@ if (!empty($user_id)) {
                 echo '<p><strong>Phone:</strong> ' . $user['phone'] . '</p>';
                 echo '<p><strong>Location:</strong> ' . $user['location'] . '</p>';
                 echo "</div>";
-                // You can display additional user details as needed
+                
             } else {
                 // Display an error message if user details are not available
-                echo '<p>' . $error_message . '</p>';
+                $error_msg[] = 'User detalis not available. Please try again later';
             }
             ?>
         </div>
     </main>
-   <script src="script.js"></script>
+   <script src="./js/script.js"></script>
 
-<?php include 'components/alerts.php'; ?>
+<script src="./js/cdnjs/sweetalert2.all.min.js"></script>
+<?php include './components/alerts.php'; ?>
 </body>
 </html>

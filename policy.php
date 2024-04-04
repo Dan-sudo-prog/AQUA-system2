@@ -3,7 +3,6 @@
 include 'components/connect.php';
 
 // Check if the user is logged in and retrieve the user_id
-$user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
 
 ?>
 <!DOCTYPE html>
@@ -12,8 +11,8 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
     <style>
        
         
@@ -123,6 +122,6 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
 <!-- custom js file link  -->
-<script src="script.js"></script>
+<script src="./js/script.js"></script>
 </body>
 </html>

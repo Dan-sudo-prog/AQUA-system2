@@ -1,5 +1,5 @@
 <?php
-// Include your database connection code here
+// Including database connection
 include 'components/connect.php';
 
 // Get the product ID from the URL
@@ -24,6 +24,10 @@ if (isset($_GET['get_id'])) {
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
+
+} else {
+    echo "Product ID not provided.";
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,18 +38,19 @@ if (isset($_GET['get_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
     <!-- custom css file link  -->
+   <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="./css/style.css">
    <style type="text/css">
-       h1 {
+       .details-container h1 {
         font-size: 25px;
         margin-bottom: 15px;
         padding-top: 10px;
        }
-       h2 {
+       .details-container h2 {
         font-size: 20px;
         margin-bottom: 15px;
        }
-       p {
+        .details-container p {
         font-size: 16px;
         margin-bottom: 15px;
         padding: 5px;
@@ -57,11 +62,13 @@ if (isset($_GET['get_id'])) {
         align-items: center;
         text-align: left;
         border: none;
-        background-color: rgba(255, 255, 255, 0.5);
-        box-shadow:0 5px 10px rgba(0, 0, 0, 0.5);
+        /*border-radius: 10px;*/
+        border-radius: 40px;
+        background-color: rgba(5, 200, 1, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
        }
-       a {
-        margin-left: 30px;
+       .details-container a {
+        border-radius: 0 20px 0 20px;
        }
    </style>
    
@@ -93,12 +100,12 @@ if (isset($_GET['get_id'])) {
     <p>Price: Ugx <?php echo $product_data['price']; ?></p>
     <p>Location: <?php echo $product_data['location']; ?></p>
     <p>Average Rating: <?php echo number_format($avg_rating, 2); ?></p>
+<!-- Add a link to go back to the product listing -->
+    <a href="view_post.php?get_id=<?= $post_id; ?>" class="inline-btn">Back to view post</a>
 
 <!-- You can add more details as needed -->
 </div>
-    <!-- Add a link to go back to the product listing -->
-    <a href="view_post.php?get_id=<?= $post_id; ?>" class="inline-btn">Back to view post</a>
-
+    
     <!-- custom js file link  -->
 <!-- Add this script inside the head section or at the end of the body before the closing tag -->
 <script type="text/javascript">
@@ -135,7 +142,5 @@ if (isset($_GET['get_id'])) {
 </body>
 </html>
 <?php
-} else {
-    echo "Product ID not provided.";
-}
+
 ?>

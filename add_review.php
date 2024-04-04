@@ -1,5 +1,4 @@
 <?php
-session_start(); // Start the session if not already started
 
 include 'components/connect.php';
 
@@ -10,12 +9,44 @@ if (isset($_GET['get_id'])) {
     header('location: all_posts.php');
 }
 
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="./css/cdnjs/sweetalert2.min.css">
+   <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
+   <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+   
+<!-- header section starts  -->
+<?php include 'components/header.php';
 // Check if the user is logged in using $_SESSION['user_id'], and fallback to $_COOKIE['user_id'] if not set
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : (isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '');
-
 if (isset($_POST['submit'])) {
+
+
+  
+
+   
+   
+
+
+
+
     // Check if the user is logged in
     if (!empty($user_id)) { // Check if $user_id is not empty
+       // Retrieve post owner id
+   $post_owner_query = $conn->prepare("SELECT user_id FROM `posts` WHERE post_id = ?");
+   $post_owner_query->execute([$get_id]);
+   $post_owner_id = $post_owner_query->fetchColumn();
+
+      if ($user_id != $post_owner_id) {
+
     $id = create_unique_id();
     $title = $_POST['title'];
     $title = filter_var($title, FILTER_SANITIZE_STRING);
@@ -47,23 +78,15 @@ if (isset($_POST['submit'])) {
         }
     }
 } else {
+   // when user is post owner
+   $warning_msg[] = 'You cannot add a review to your own post';
+}
+} else {
         // User is not logged in
         $warning_msg[] = 'Please log in to add a review.';
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <!-- ... Your HTML head content ... -->
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-   
-<!-- header section starts  -->
-<?php include 'components/header.php'; ?>
 <!-- header section ends -->
 
 <!-- add review section starts  -->
@@ -119,10 +142,10 @@ if (isset($_POST['submit'])) {
 <!-- add review section ends -->
 
 <!-- sweetalert cdn link  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="js/sweetalert2.all.min.js"></script>
 
 <!-- custom js file link  -->
-<script src="script.js"></script>
+<script src="./js/script.js"></script>
 
 <script>
    // JavaScript code to show/hide questions
@@ -156,8 +179,9 @@ if (isset($_POST['submit'])) {
    }
 </script>
 
-<?php include 'components/alerts.php'; ?>
 
+<script src="./js/cdnjs/sweetalert2.all.min.js"></script>
+<?php include './components/alerts.php'; ?>
 </body>
 </html>
 

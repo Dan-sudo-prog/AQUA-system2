@@ -9,21 +9,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate the input data (add your validation logic here)
 
     if (empty($title) || empty($content)) {
-        $message = 'Please fill out all required fields.';
+        $warning_msg[] = 'Please fill out all required fields.';
     } else {
         // Insert the news into the database using prepared statements
-        $insert = "INSERT INTO news (title, content, date) VALUES (:title, :content, NOW())";
+        $insert = "INSERT INTO news (title, content, publication_date) VALUES (:title, :content, NOW())";
         $stmt = $conn->prepare($insert);
 
         $stmt->bindParam(':title', $title, PDO::PARAM_STR);
         $stmt->bindParam(':content', $content, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-            $message = 'News added successfully.';
+            $success_msg[] = 'News added successfully.';
             // Clear form fields if needed
             $title = $content = '';
         } else {
-            $message = 'Failed to add news. Please try again later.';
+            $error_msg[] = 'Failed to add news. Please try again later.';
         }
     }
 }
@@ -37,8 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Add News</title>
-   <link rel="stylesheet" type="text/css" href="style.css">
-   <link rel="stylesheet" type="text/css" href="styles.css">
+   <link rel="stylesheet" href="./css/cdnjs/sweetalert2.min.css">
+   <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
+   <link rel="stylesheet" href="./css/style.css">
    <!-- Include your CSS and other HTML head content -->
    <style type="text/css">
        /* Style the container for the "Add News" form */
@@ -116,22 +117,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    </style>
 </head>
 <body>
-<!-- header section starts  -->
-<?php include 'components/header.php'; ?>
-<!-- header section ends -->
-   <div class="container">
-      
-      <?php if (isset($message)) { ?>
-          <div class="message"><?php echo $message; ?></div>
-      <?php } ?>
 
-      <!-- Add a new news form -->
+   <div class="container">
+    <!-- Add a new news form -->
 <div class="account-form">
     <form action="add_news.php" method="post">
         <h3>Add News</h3>
         <!-- Input fields for news details -->
         <input type="text" placeholder="Enter news title" name="title" class="box">
-        <textarea name="description" placeholder="Enter news description" class="box"></textarea>
+        <textarea name="content" placeholder="Enter news description" class="box"></textarea>
         <input type="submit" value="Submit News" name="submit" class="btn">
         <a href="news.php" class="option-btn">Go back to all news</a>
     </form>
@@ -139,6 +133,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    </div>
 
-   <!-- Your footer content goes here -->
+<script type="text/javascript" src="js/script.js"></script>
+<script src="./js/cdnjs/sweetalert2.all.min.js"></script>
+<?php include './components/alerts.php'; ?>
 </body>
 </html>

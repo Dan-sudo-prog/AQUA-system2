@@ -45,14 +45,9 @@ if(isset($_POST['delete_review'])){
    <title>view post</title>
 
    <!-- custom css file link  -->
-
+   <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
    <link rel="stylesheet" type="text/css" href="./css/style.css">
    <style type="text/css">
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-}
 
 .container {
     max-width: 1200px;
@@ -119,10 +114,23 @@ body {
 }
 
 .user img {
-    width: 50px;
-    height: 50px;
+    width: 25%;
+    height: 25%;
+    padding: 10px;
     border-radius: 50%;
     margin-right: 10px;
+}
+
+.owner {
+    display: flex;
+    align-items: center;
+}
+.owner img {
+    width: 25%;
+    height: 25%;
+    padding: 10px;
+    border-radius: 5%;
+    margin-right: 10%;
 }
 
 .ratings p {
@@ -181,13 +189,6 @@ body {
     color: #721c24;
 }
 
-/* Footer styles */
-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-}
 
 
    </style>
@@ -196,7 +197,10 @@ footer {
 <body>
    
 <!-- header section starts  -->
-<?php include 'components/header.php'; ?>
+<?php
+    include 'components/header.php'; 
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
+?>
 <!-- header section ends -->
 
 <!-- view posts section starts  -->
@@ -354,12 +358,12 @@ if ($select_post->rowCount() > 0) {
    <?php
          }
       }else{
-         echo '<p class="empty">post is missing!</p>';
+         echo '<p class="empty">Post is missing!</p>';
       }
    ?>
 
      <!-- Display the owner details along with the post -->
-<div>
+<div class="owner">
             <!-- Display owner's profile picture -->
             <?php if ($owner_profile_pic != '') { ?>
                 <img src="uploaded_files/<?= $owner_profile_pic; ?>" alt="Owner's Profile Pic">
@@ -378,10 +382,10 @@ if ($select_post->rowCount() > 0) {
 // Check if the user is logged in
 if (!empty($user_id)) {
     // User is logged in, show the link to view farmer details
-    echo '<a href="user_details.php?get_id=<?=$get_id;?>" id="viewFarmerLink" style="margin-top: 0; font-size: 15px;">View About Farmer</a>';
+    ?><a href="user_details.php?get_id=<?= $get_id; ?>" id="viewFarmerLink" style="font-size: 15px;">View Contact Details</a><?php
 } else {
     // User is not logged in, show the link with a disabled attribute
-    echo '<a href="#" id="viewFarmerLink" style="margin-top: 0; font-size: 15px;" onclick="showLoginMessage(event); return false;">View About Farmer</a>';
+    ?><a href="#" id="viewFarmerLink" style="margin-top: 0; font-size: 15px;" onclick="showLoginMessage(event); return false;">View Contact Details</a>';<?php
 }
 ?>
       
@@ -398,7 +402,7 @@ if (!empty($user_id)) {
         // Add a click event listener to the link
         viewFarmerLink.addEventListener('click', function(event) {
             // Check if the user is logged in
-            if (!<?php echo json_encode(!empty($user_id)); ?>) {
+            if (!<?php echo json_encode(!empty($_SESSION['user_id'])); ?>) {
                 // User is not logged in, prevent the default link behavior
                 event.preventDefault();
             }
@@ -419,7 +423,10 @@ if (!empty($user_id)) {
 
 <section class="reviews-container">
 
-   <div class="heading"><h1>user's reviews</h1> <a href="add_review.php?get_id=<?= $get_id; ?>" class="inline-btn" style="margin-top: 0;">add review</a></div>
+    <div class="heading"><h1>user's reviews</h1>
+
+        <a href="add_review.php?get_id=<?= $get_id; ?>" class="inline-btn" style="margin-top: 0;">add review</a>
+    </div>
 
    <div class="box-container">
 
@@ -429,7 +436,7 @@ if (!empty($user_id)) {
       if($select_reviews->rowCount() > 0){
          while($fetch_review = $select_reviews->fetch(PDO::FETCH_ASSOC)){
    ?>
-   <div class="box" <?php if($fetch_review['user_id'] == $user_id){echo 'style="order: -1;"';}; ?>>
+   <div class="box" <?php if($fetch_review['user_id'] == $user_id){echo 'style="order: -1;"';} ?> >
       <?php
          $select_user = $conn->prepare("SELECT * FROM `users` WHERE user_id = ?");
          $select_user->execute([$fetch_review['user_id']]);
@@ -504,10 +511,6 @@ if (!empty($user_id)) {
 
 
 
-
-
-
-
 <!-- sweetalert cdn link  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
@@ -515,6 +518,5 @@ if (!empty($user_id)) {
 <script src="./js/script.js"></script>
 
 <?php include 'components/alerts.php'; ?>
-
 </body>
 </html>

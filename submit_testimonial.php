@@ -5,9 +5,9 @@ include 'components/connect.php';
 // Handle the POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Access form fields using $_POST
-    $user = $_POST['user'];
-    $location = $_POST['location'];
-    $testimonial = $_POST['testimonial'];
+    $user = filter_var($_POST['user'], FILTER_SANITIZE_STRING);
+    $location = filter_var($_POST['location'], FILTER_SANITIZE_STRING);
+    $testimonial = filter_var($_POST['testimonial'], FILTER_SANITIZE_STRING);
 
     try {
         // SQL insert statement
@@ -43,5 +43,5 @@ $conn = null;
 <script type="text/javascript">
     setTimeout(function() {
         window.location.href = "index.php";
-    }, 5000);//5000 miliseconds delay (5 seconds)
+    }, 5000); // 5000 milliseconds delay (5 seconds)
 </script>

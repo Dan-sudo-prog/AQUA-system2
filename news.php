@@ -2,7 +2,7 @@
 include 'components/connect.php';
 
 // Check if the user is logged in and retrieve the user_id
-$user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
+// $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
 
 ?>
 <!DOCTYPE html>
@@ -12,8 +12,8 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Page</title> <!-- Links to your CSS file -->
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
     <style type="text/css">
         /* Define your styles for the news page here */
 .news_container {
@@ -66,12 +66,16 @@ $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
             ?>
         </div>
     </div>
+
+
+
  <!-- sweetalert cdn link  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
 <!-- custom js file link  -->
-<script src="script.js"></script>
+<script src="./js/script.js"></script>
     <!-- Include your website footer -->
-    <?php include 'components/footer.php'; ?>
+   
+    
 </body>
 </html>

@@ -33,8 +33,6 @@ try{
 
 <!-- navigate to users page -->
 <a href="users.php"><button>See Users</button></a>
-</body>
-</html>
 
 
 
@@ -111,3 +109,7 @@ echo '</tr>';
 
 echo '</table>';
 ?>
+
+<iframe src="add_news.php" width="auto" height="auto"></iframe>
+</body>
+</html>

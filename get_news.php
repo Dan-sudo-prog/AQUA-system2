@@ -1,4 +1,5 @@
 <?php
+// include 'components/connect.php';
 // This file gets news infromation from the database
 try {
 

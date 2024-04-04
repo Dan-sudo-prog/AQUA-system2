@@ -1,12 +1,5 @@
 <?php
-// Include your PDO database connection settings (e.g., connect.php)
 include 'components/connect.php';
-
-// Check if the PDO connection is established
-if (!$conn) {
-    die("Database connection failed.");
-}
-
 // Define a SQL query to select market price data
 $sql = "SELECT * FROM market_prices";
 
@@ -24,10 +17,13 @@ try {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <!-- ... Your HTML head content ... -->
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="styles.css">
-   <style type="text/css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Prices</title>
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <style type="text/css">
       /* Style the table container */
 .market-price {
     margin: 20px auto;
@@ -100,7 +96,7 @@ try {
       <tbody>
          <?php foreach ($marketPrices as $marketPrice) { ?>
             <tr>
-               <td><?php echo $marketPrice['product']; ?></td>
+               <td><?php echo $marketPrice['product_name']; ?></td>
                <td><?php echo $marketPrice['price']; ?></td>
                <td><?php echo $marketPrice['date']; ?></td>
             </tr>
@@ -115,8 +111,8 @@ try {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
 <!-- custom js file link  -->
-<script src="script.js"></script>
-
+<script src="./js/script.js"></script>
+<?php include 'components/footer.php'; ?>
 <?php include 'components/alerts.php'; ?>
 
 </body>

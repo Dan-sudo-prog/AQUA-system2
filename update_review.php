@@ -9,6 +9,26 @@ if(isset($_GET['get_id'])){
    header('location:all_posts.php');
 }
 
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>update review</title>
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="./css/cdnjs/sweetalert2.min.css">
+   <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
+   <link rel="stylesheet" href="./css/style.css">
+
+</head>
+<body>
+   
+<!-- header section starts  -->
+<?php include 'components/header.php';
 if(isset($_POST['submit'])){
 
    $title = $_POST['title'];
@@ -28,26 +48,7 @@ if(isset($_POST['submit'])){
    $targetUrl = 'view_post.php?get_id=' . $fetch_review['post_id'];
    header("refresh:$delay;url=$targetUrl");
 }
-
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>update review</title>
-
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="styles.css">
-
-</head>
-<body>
-   
-<!-- header section starts  -->
-<?php include 'components/header.php'; ?>
 <!-- header section ends -->
 
 <!-- update reviews section starts  -->
@@ -76,7 +77,7 @@ if(isset($_POST['submit'])){
          <option value="5">5</option>
       </select>
       <p class="placeholder">How can the product be made better?</p>
-         <textarea name="recommendations" class="box" placeholder="enter product recommendation" maxlength="1000" cols="30" rows="10"></textarea>
+         <textarea name="recommendations" class="box" placeholder="enter product recommendation" maxlength="1000" cols="30" rows="10"><?= $fetch_review['recommendations'];?></textarea>
       <input type="submit" value="update review" name="submit" class="btn">
       <a href="view_post.php?get_id=<?= $fetch_review['post_id']; ?>" class="option-btn">go back</a>
    </form>
@@ -103,14 +104,14 @@ if(isset($_POST['submit'])){
 
 
 
-
 <!-- sweetalert cdn link  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+<script src="./js/cdnjs/sweetalert2.all.min.js"></script>
+<?php include './components/alerts.php'; ?>
 
 <!-- custom js file link  -->
-<script src="script.js"></script>
+<script src="./js/script.js"></script>
 
-<?php include 'components/alerts.php'; ?>
 
 </body>
 </html>
