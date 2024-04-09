@@ -5,9 +5,7 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <title>Home</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-DzpqFhsgN3yJBeWr0YHzl2BqGvtfPu3v0RXVHwN1mT+3vALOqkC4x8l3RvW6bnVgj5NTBRDf+/Ibr+ndVVaF3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-   <!-- --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofGJFCBbA5CFi6LAAJp2iTpXuUUTdPxrL2" crossorigin="anonymous"> <!-- -->
+     
    <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
    <link rel="stylesheet" href="./css/style.css">
 </head>
