@@ -5,7 +5,6 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <title>Home</title>
-     
    <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
    <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -13,8 +12,6 @@
 <?php include 'components/header.php'; ?>
 <div id="container">
    <?php
-      // Check if the user is logged in and retrieve the user_id
-      // $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : '';
       $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
    ?>
 <div id="body">
@@ -76,7 +73,7 @@
             <div class="box-container">
                 <?php
       // Define the number of posts per page and get the current page from the query string
-$postsPerPage = 9;
+$postsPerPage = 12;
 if (isset($_GET['page'])) {
     $currentPage = intval($_GET['page']);
 } else {
@@ -118,15 +115,21 @@ if (file_exists($imagePath)) {
 
       <?php
          }
-         $prevPage = $currentPage - 1;
-    echo '<a href="?page=' . $prevPage . '">Previous</a>';
-      // Add "Next" button if there are more posts
-    $nextPage = $currentPage + 1;
-    echo '<a href="?page=' . $nextPage . '">Next</a>';
-} else {
-    echo '<p class="empty">No posts added yet!</p>';
-}
-?>
+            // Add "Next" button if there are more posts
+            $nextPage = $currentPage + 1;
+            echo '<a class="nextPage" href="?page=' . $nextPage . '">Next</a>';
+            if($currentPage > 1) {
+               $prevPage = $currentPage - 1;
+               echo '<a class="prevPage" href="?page=' . $prevPage . '">Previous</a>';
+            }
+         } else {
+            echo '<p class="empty">No posts</p>';
+            if($currentPage > 1) {
+               $prevPage = $currentPage - 1;
+               echo '<a class="prevPage" href="?page=' . $prevPage . '">Previous</a>';
+            }
+         }
+      ?>
             </div>
         </section>
 
@@ -216,9 +219,11 @@ if (file_exists($imagePath)) {
          <h2>Write a Testimonial</h2>
          <form method="post" action="submit_testimonial.php" id="testimonial-form">
             <label for="name">Name:</label>
-               <input type="text" name="user" placeholder="Write your name" required>
+               <input type="text" name="user_name" placeholder="Write your name..." required>
+            <label for="phone">Phone Number:</label>
+               <input type="text" name="phone" placeholder="Enter your phone number..." required>
             <label for="location">Location</label>
-               <input type="text" name="location" placeholder="Write your location" required>
+               <input type="text" name="location" placeholder="Enter your location here..." required>
             <label for="testimonial">Testimonial</label>
                <textarea name="testimonial" placeholder="Write your testimonial here..." cols="50" rows="4" required></textarea><br>
             <button type="submit" name="submit" >Submit</button>
@@ -264,7 +269,6 @@ if (file_exists($imagePath)) {
 </footer>
 </div>
 <script type="text/javascript" src="js/script.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script> -->
 
 </body>
 </html>

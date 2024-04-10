@@ -86,7 +86,7 @@ body {
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
           echo "<div class=\"testimonial\">";
           echo '<p>' . $row["text"] . '</p>';
-          echo '<div class="user-info">' . $row['user'] . ', ' . $row["location"] . '</div>';
+          echo '<div class="user-info">' . $row['user_name'] . ', ' . $row["location"] . '</div>';
           echo '</div>';
         }
       } else {

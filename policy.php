@@ -1,5 +1,4 @@
-
-   <?php
+<?php
 include 'components/connect.php';
 
 // Check if the user is logged in and retrieve the user_id
@@ -10,7 +9,7 @@ include 'components/connect.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
+    <title>Policy</title>
     <link rel="stylesheet" type="text/css" href="./css/fontawesome-free-6.5.1-web/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <style>
@@ -49,7 +48,7 @@ include 'components/connect.php';
         }
     </style>
 </head>
-<body>
+<body id="container">
     <!-- Header section starts  -->
 <?php include 'components/header.php'; ?>
 <!-- Header section ends -->
@@ -57,7 +56,7 @@ include 'components/connect.php';
     
 
     <!-- Main content container -->
-    <div class="container">
+    <div class="body">
         <div class="policy">
             <h2>Privacy Policy</h2>            
             <ol>
@@ -112,14 +111,7 @@ include 'components/connect.php';
             </ol>
         </div>
     </div>
-
-    <!-- Include footer here -->
-    <footer>
-        <!-- Footer content goes here -->
-        <?php include 'components/footer.php'; ?>
-    </footer>
-    <!-- sweetalert cdn link  -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    
 
 <!-- custom js file link  -->
 <script src="./js/script.js"></script>

@@ -33,7 +33,7 @@
             <div class="box-container">
                 <?php
       // Define the number of posts per page and get the current page from the query string
-$postsPerPage = 9;
+$postsPerPage = 12;
 if (isset($_GET['page'])) {
     $currentPage = intval($_GET['page']);
 } else {
@@ -75,15 +75,21 @@ if (file_exists($imagePath)) {
 
       <?php
          }
-         $prevPage = $currentPage - 1;
-    echo '<a href="?page=' . $prevPage . '">Previous</a>';
-      // Add "Next" button if there are more posts
-    $nextPage = $currentPage + 1;
-    echo '<a href="?page=' . $nextPage . '">Next</a>';
-} else {
-    echo '<p class="empty">No posts added yet!</p>';
-}
-?>
+            // Add "Next" button if there are more posts
+            $nextPage = $currentPage + 1;
+            echo '<a class="nextPage" href="?page=' . $nextPage . '">Next</a>';
+            if($currentPage > 1) {
+               $prevPage = $currentPage - 1;
+               echo '<a class="prevPage" href="?page=' . $prevPage . '">Previous</a>';
+            }
+         } else {
+            echo '<p class="empty">No posts</p>';
+            if($currentPage > 1) {
+               $prevPage = $currentPage - 1;
+               echo '<a class="prevPage" href="?page=' . $prevPage . '">Previous</a>';
+            }
+         }
+      ?>
             </div>
         </section>
         <!-- View all posts section ends -->
@@ -156,39 +162,43 @@ if (file_exists($imagePath)) {
          </section>
 
          <section class="all-posts" style="background-color: lightgrey;">
-            <div class="heading"><h1>What our Users Say</h1></div>
-            
-            <div class="r5">
-               <p>Know what others say about us</p>
-               <p>Help us improve by writing a testimonial to us if you have not yet done so.</p>
-            </div>
+   <div class="heading"><h1>What our Users Say</h1></div>
+      <div class="">
+      </div>
+      <div class="r5">
+         <p>Know what others say about us</p>
+         <p>Help us improve by writing a testimonial to us if you have not yet done so.</p>
+      </div>
 
-            <div class="testimonial">
-               <button onclick="openPopup();">Write a testimonial</button>
-               <a href="testimonials.php">View testimonials</a>
-            </div>
-            <div id="popup" class="popup">
-               <h2>Write a Testimonial</h2>
-               <form method="post" action="submit_testimonial.php" id="testimonial-form" class="form1">
-                  <label for="name">Name:</label>
-                  <input type="text" name="user" placeholder="Write your name" required>
-                  <label for="location">Location</label>
-                  <input type="text" name="location" placeholder="Write your location" required>
-                  <label for="testimonial">Testimonial</label>
-                  <textarea name="testimonial" placeholder="Write your testimonial here..." cols="50" rows="4" required></textarea><br>
-                  <button>Submit</button><button onclick="closePopup();">Close</button>
-                  <script type="text/javascript">
+      <div class="testimonial">
+         <button onclick="openPopup();">Write a testimonial</button>
+         <a href="testimonials.php">View testimonials</a>
+      </div>
+      <div id="popup" class="popup">
+         <h2>Write a Testimonial</h2>
+         <form method="post" action="submit_testimonial.php" id="testimonial-form">
+            <label for="name">Name:</label>
+               <input type="text" name="user_name" placeholder="Write your name..." required>
+            <label for="phone">Phone Number:</label>
+               <input type="text" name="phone" placeholder="Enter your phone number..." required>
+            <label for="location">Location</label>
+               <input type="text" name="location" placeholder="Enter your location here..." required>
+            <label for="testimonial">Testimonial</label>
+               <textarea name="testimonial" placeholder="Write your testimonial here..." cols="50" rows="4" required></textarea><br>
+            <button type="submit" name="submit" >Submit</button>
+            <button onclick="closePopup();">Close</button>
+            <script type="text/javascript">
                      let popup = document.getElementById("popup");
                      function openPopup() {
-                        popup.classList.add("open-popup");
+                              popup.classList.add("open-popup");
                      }
                      function closePopup() {
-                        popup.classList.remove("open-popup");
+                              popup.classList.remove("open-popup");
                      }
-                  </script>
-               </form>
-            </div>
-         </section>
+            </script>
+         </form>
+      </div>
+</section>
 </div>
          <footer id="footer">
             <div class="footer"><br>
@@ -208,6 +218,6 @@ if (file_exists($imagePath)) {
    
 </div>
 <script type="text/javascript" src="js/script.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script> -->
+
 </body>
 </html>
